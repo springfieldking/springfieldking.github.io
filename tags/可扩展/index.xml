@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>可扩展 on 王半仙的博客</title>
+    <link>https://springfieldking.github.io/tags/%E5%8F%AF%E6%89%A9%E5%B1%95/</link>
+    <description>Recent content in 可扩展 on 王半仙的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Thu, 30 Jul 2020 00:27:40 +0800</lastBuildDate>
+    
+	<atom:link href="https://springfieldking.github.io/tags/%E5%8F%AF%E6%89%A9%E5%B1%95/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>高并发系统设计</title>
+      <link>https://springfieldking.github.io/post/%E9%AB%98%E5%B9%B6%E5%8F%91%E7%B3%BB%E7%BB%9F_%E9%AB%98%E6%80%A7%E8%83%BD_%E9%AB%98%E5%8F%AF%E7%94%A8_%E5%8F%AF%E6%89%A9%E5%B1%95/</link>
+      <pubDate>Thu, 30 Jul 2020 00:27:40 +0800</pubDate>
+      
+      <guid>https://springfieldking.github.io/post/%E9%AB%98%E5%B9%B6%E5%8F%91%E7%B3%BB%E7%BB%9F_%E9%AB%98%E6%80%A7%E8%83%BD_%E9%AB%98%E5%8F%AF%E7%94%A8_%E5%8F%AF%E6%89%A9%E5%B1%95/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;高并发的是指通过设计让系统可以处理更多的请求，承载更多的流量。高性能和高可用是高并发系统设计时必须考虑的因素。可扩展是系统可以更快速的完成扩容，更稳定的承担流量。&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>text on 王半仙的博客</title>
+    <link>https://springfieldking.github.io/tags/text/</link>
+    <description>Recent content in text on 王半仙的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sat, 16 Nov 2019 11:20:04 +0800</lastBuildDate>
+    
+	<atom:link href="https://springfieldking.github.io/tags/text/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Hello Hugo</title>
+      <link>https://springfieldking.github.io/post/hello_hugo/</link>
+      <pubDate>Sat, 16 Nov 2019 11:20:04 +0800</pubDate>
+      
+      <guid>https://springfieldking.github.io/post/hello_hugo/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;这是第一次使用hugo, 感觉不错, 希望以后能在后台领域写出更多的文章&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

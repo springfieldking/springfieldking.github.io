@@ -1,14 +1,60 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Categories on My New Hugo Site</title>
+    <title>Categories on 王半仙的博客</title>
     <link>https://springfieldking.github.io/categories/</link>
-    <description>Recent content in Categories on My New Hugo Site</description>
+    <description>Recent content in Categories on 王半仙的博客</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
+    <language>en</language>
+    <lastBuildDate>Thu, 30 Jul 2020 00:27:40 +0800</lastBuildDate>
     
 	<atom:link href="https://springfieldking.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>架构</title>
+      <link>https://springfieldking.github.io/categories/%E6%9E%B6%E6%9E%84/</link>
+      <pubDate>Thu, 30 Jul 2020 00:27:40 +0800</pubDate>
+      
+      <guid>https://springfieldking.github.io/categories/%E6%9E%B6%E6%9E%84/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>高并发系统</title>
+      <link>https://springfieldking.github.io/categories/%E9%AB%98%E5%B9%B6%E5%8F%91%E7%B3%BB%E7%BB%9F/</link>
+      <pubDate>Thu, 30 Jul 2020 00:27:40 +0800</pubDate>
+      
+      <guid>https://springfieldking.github.io/categories/%E9%AB%98%E5%B9%B6%E5%8F%91%E7%B3%BB%E7%BB%9F/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>linux</title>
+      <link>https://springfieldking.github.io/categories/linux/</link>
+      <pubDate>Wed, 01 Jan 2020 15:59:10 +0800</pubDate>
+      
+      <guid>https://springfieldking.github.io/categories/linux/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>环境</title>
+      <link>https://springfieldking.github.io/categories/%E7%8E%AF%E5%A2%83/</link>
+      <pubDate>Sun, 17 Nov 2019 21:59:10 +0800</pubDate>
+      
+      <guid>https://springfieldking.github.io/categories/%E7%8E%AF%E5%A2%83/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>hello</title>
+      <link>https://springfieldking.github.io/categories/hello/</link>
+      <pubDate>Sat, 16 Nov 2019 11:20:04 +0800</pubDate>
+      
+      <guid>https://springfieldking.github.io/categories/hello/</guid>
+      <description></description>
+    </item>
     
   </channel>
 </rss>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>linux on 王半仙的博客</title>
+    <link>https://springfieldking.github.io/tags/linux/</link>
+    <description>Recent content in linux on 王半仙的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Wed, 01 Jan 2020 15:59:10 +0800</lastBuildDate>
+    
+	<atom:link href="https://springfieldking.github.io/tags/linux/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Linux内核等待队列</title>
+      <link>https://springfieldking.github.io/post/linux_kernel_wait_queue/</link>
+      <pubDate>Wed, 01 Jan 2020 15:59:10 +0800</pubDate>
+      
+      <guid>https://springfieldking.github.io/post/linux_kernel_wait_queue/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;等待队列是linux内核中重要的数据结构，许多内核中的功能都依赖其实现，比如异步通知等功能。&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>高并发系统设计 - 王半仙的博客</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="chunyewang" /><meta name="description" content=" 高并发的是指通过设计让系统可以处理更多的请求，承载更多的流量。高性能和高可用是高并发系统设计时必须考虑的因素。可扩展是系统可以更快速的完成扩容，更稳定的承担流量。
+" /><meta name="keywords" content="技术, 架构, 设计" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.74.3 with theme even" />
+
+
+<link rel="canonical" href="https://springfieldking.github.io/post/%E9%AB%98%E5%B9%B6%E5%8F%91%E7%B3%BB%E7%BB%9F_%E9%AB%98%E6%80%A7%E8%83%BD_%E9%AB%98%E5%8F%AF%E7%94%A8_%E5%8F%AF%E6%89%A9%E5%B1%95/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.78f8f17bab244b9ee62ad16480c9584d5fc2db06ae20681d1ca225cefd80767c.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="高并发系统设计" />
+<meta property="og:description" content="
+高并发的是指通过设计让系统可以处理更多的请求，承载更多的流量。高性能和高可用是高并发系统设计时必须考虑的因素。可扩展是系统可以更快速的完成扩容，更稳定的承担流量。
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://springfieldking.github.io/post/%E9%AB%98%E5%B9%B6%E5%8F%91%E7%B3%BB%E7%BB%9F_%E9%AB%98%E6%80%A7%E8%83%BD_%E9%AB%98%E5%8F%AF%E7%94%A8_%E5%8F%AF%E6%89%A9%E5%B1%95/" />
+<meta property="article:published_time" content="2020-07-30T00:27:40+08:00" />
+<meta property="article:modified_time" content="2020-07-30T00:27:40+08:00" />
+<meta itemprop="name" content="高并发系统设计">
+<meta itemprop="description" content="
+高并发的是指通过设计让系统可以处理更多的请求，承载更多的流量。高性能和高可用是高并发系统设计时必须考虑的因素。可扩展是系统可以更快速的完成扩容，更稳定的承担流量。
+">
+<meta itemprop="datePublished" content="2020-07-30T00:27:40+08:00" />
+<meta itemprop="dateModified" content="2020-07-30T00:27:40+08:00" />
+<meta itemprop="wordCount" content="468">
+
+
+
+<meta itemprop="keywords" content="架构,高并发,高性能,高可用,可扩展," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="高并发系统设计"/>
+<meta name="twitter:description" content="
+高并发的是指通过设计让系统可以处理更多的请求，承载更多的流量。高性能和高可用是高并发系统设计时必须考虑的因素。可扩展是系统可以更快速的完成扩容，更稳定的承担流量。
+"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">👨‍💻</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">👨‍💻</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">高并发系统设计</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2020-07-30 </span>
+        <div class="post-category">
+            <a href="/categories/%E6%9E%B6%E6%9E%84/"> 架构 </a>
+            <a href="/categories/%E9%AB%98%E5%B9%B6%E5%8F%91%E7%B3%BB%E7%BB%9F/"> 高并发系统 </a>
+            </div>
+          <span class="more-meta"> 约 468 字 </span>
+          <span class="more-meta"> 预计阅读 1 分钟 </span>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次阅读 </span>
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#原则">原则</a></li>
+    <li><a href="#指标">指标</a></li>
+    <li><a href="#优化">优化</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#度量">度量</a></li>
+    <li><a href="#计算">计算</a></li>
+    <li><a href="#思路">思路</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#难点">难点</a></li>
+    <li><a href="#思路-1">思路</a></li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <blockquote>
+<p>高并发的是指通过设计让系统可以处理更多的请求，承载更多的流量。高性能和高可用是高并发系统设计时必须考虑的因素。可扩展是系统可以更快速的完成扩容，更稳定的承担流量。</p>
+</blockquote>
+<h1 id="一-高性能">一 高性能</h1>
+<h2 id="原则">原则</h2>
+<ul>
+<li>问题导向: 避免盲目优化。优化可能对业务折中考虑，损伤业务。</li>
+<li>八二原则: 20%的时间解决80%的性能问题。</li>
+<li>数据支撑: 更好的了解优化效果。</li>
+<li>可持续: 确定目标不断寻找瓶颈。</li>
+</ul>
+<h2 id="指标">指标</h2>
+<ul>
+<li>均值</li>
+<li>最大值</li>
+<li>分位值 ✅</li>
+</ul>
+<h2 id="优化">优化</h2>
+<ul>
+<li>
+<p>CPU密集型: 通过Profile工具寻找性能问题</p>
+</li>
+<li>
+<p>IO密集型: 通过系统工具分析网络协议栈、网卡、磁盘、文件系统、内存等</p>
+</li>
+</ul>
+<h1 id="二-高可用">二 高可用</h1>
+<h2 id="度量">度量</h2>
+<ul>
+<li>MTBF（Mean Time Between Failure）: 平均故障间隔</li>
+<li>MTTR（Mean Time To Repair）: 故障的平均恢复时间</li>
+</ul>
+<h2 id="计算">计算</h2>
+<p>Availability = MTBF / (MTBF + MTTR)</p>
+<table>
+<thead>
+<tr>
+<th>高可用性</th>
+<th>年故障时间</th>
+<th>日故障时间</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>90%</td>
+<td>36.5d</td>
+<td>2.4h</td>
+</tr>
+<tr>
+<td>99%</td>
+<td>3.65d</td>
+<td>14.4m</td>
+</tr>
+<tr>
+<td>99.9 %</td>
+<td>8h</td>
+<td>1.44m</td>
+</tr>
+<tr>
+<td>99.99%</td>
+<td>52m</td>
+<td>8.6s</td>
+</tr>
+</tbody>
+</table>
+<h2 id="思路">思路</h2>
+<ul>
+<li>设计
+<ul>
+<li>failover故障转移: 主备/心跳/服务发现</li>
+<li>超时控制</li>
+<li>限流:</li>
+<li>降级: 关闭非核心服务</li>
+<li>熔断: 防止链路雪崩</li>
+</ul>
+</li>
+<li>运维
+<ul>
+<li>灰度发布</li>
+<li>故障演练</li>
+</ul>
+</li>
+</ul>
+<h1 id="三-可扩展">三 可扩展</h1>
+<h2 id="难点">难点</h2>
+<p>系统分层，每层都存在瓶颈</p>
+<h2 id="思路-1">思路</h2>
+<blockquote>
+<p>拆分，复杂问题简单化</p>
+</blockquote>
+<ul>
+<li>存储层可扩展: 垂直拆分/水平拆分</li>
+<li>业务层可扩展: 根据业务拆分/根据接口重要程度拆分</li>
+</ul>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">chunyewang</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2020-07-30
+        
+    </span>
+  </p>
+  
+  
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/img/reward/wechat.jpeg">
+        <span>微信打赏</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/img/reward/alipay.jpeg">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E6%9E%B6%E6%9E%84/">架构</a>
+          <a href="/tags/%E9%AB%98%E5%B9%B6%E5%8F%91/">高并发</a>
+          <a href="/tags/%E9%AB%98%E6%80%A7%E8%83%BD/">高性能</a>
+          <a href="/tags/%E9%AB%98%E5%8F%AF%E7%94%A8/">高可用</a>
+          <a href="/tags/%E5%8F%AF%E6%89%A9%E5%B1%95/">可扩展</a>
+          </div>
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/linux_kernel_wait_queue/">
+            <span class="next-text nav-default">Linux内核等待队列</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        <div id="comments-gitment"></div>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/theme-next/theme-next-gitment@1/default.min.css" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/gh/theme-next/theme-next-gitment@1/gitment.browser.min.js" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+      var gitment = new Gitment({
+        id: '2020-07-30 00:27:40 \u002b0800 CST',
+        title: '高并发系统设计',
+        link: decodeURI(location.href),
+        desc: '\u003cblockquote\u003e\n\u003cp\u003e高并发的是指通过设计让系统可以处理更多的请求，承载更多的流量。高性能和高可用是高并发系统设计时必须考虑的因素。可扩展是系统可以更快速的完成扩容，更稳定的承担流量。\u003c\/p\u003e\n\u003c\/blockquote\u003e',
+        owner: 'springfieldking',
+        repo: 'springfieldking.github.io',
+        oauth: {
+          client_id: 'e344bbb7a52294567eb9',
+          client_secret: '0dad0361fe54614cde391336da3b4aea96bda69a'
+        }
+      });
+      gitment.render('comments-gitment');
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://github.com/imsun/gitment">comments powered by gitment.</a></noscript>
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:wang.chun.ye@163.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://stackoverflow.com/users/1209164/holycow" class="iconfont icon-stack-overflow" title="stack-overflow"></a>
+      <a href="https://twitter.com/springfieldking" class="iconfont icon-twitter" title="twitter"></a>
+      <a href="https://www.facebook.com/springfieldking" class="iconfont icon-facebook" title="facebook"></a>
+      <a href="https://www.linkedin.com/in/%E6%98%A5%E7%83%A8-%E7%8E%8B-5196a410a/" class="iconfont icon-linkedin" title="linkedin"></a>
+      <a href="https://www.google.com/" class="iconfont icon-google" title="google"></a>
+      <a href="https://github.com/springfieldking" class="iconfont icon-github" title="github"></a>
+      <a href="https://weibo.com/wangchunye" class="iconfont icon-weibo" title="weibo"></a>
+      <a href="https://www.zhihu.com/people/wangchunye/" class="iconfont icon-zhihu" title="zhihu"></a>
+      <a href="https://www.douban.com/people/173111486/" class="iconfont icon-douban" title="douban"></a>
+      <a href="http://localhost:1313" class="iconfont icon-instagram" title="instagram"></a>
+      <a href="https://gitlab.com/springfieldking" class="iconfont icon-gitlab" title="gitlab"></a>
+      <a href="https://space.bilibili.com/8514905" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="https://springfieldking.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> 本站总访问量 <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次 </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> 本站总访客数 <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 人 </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2017 - 
+    2020
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">chunyewang</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script><script></script><script src="https://cdn.jsdelivr.net/npm/raphael@2.2.7/raphael.min.js" integrity="sha256-67By+NpOtm9ka1R6xpUefeGOY8kWWHHRAKlvaTJ7ONI=" crossorigin="anonymous"></script> <script src="https://cdn.jsdelivr.net/npm/flowchart.js@1.8.0/release/flowchart.min.js" integrity="sha256-zNGWjubXoY6rb5MnmpBNefO0RgoVYfle9p0tvOQM+6k=" crossorigin="anonymous"></script><script></script><script src="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.js" integrity="sha256-4O4pS1SH31ZqrSO2A/2QJTVjTPqVe+jnYgOWUVr7EEc=" crossorigin="anonymous"></script> <script src="https://cdn.jsdelivr.net/npm/snapsvg@0.5.1/dist/snap.svg-min.js" integrity="sha256-oI+elz+sIm+jpn8F/qEspKoKveTc5uKeFHNNVexe6d8=" crossorigin="anonymous"></script> <script src="https://cdn.jsdelivr.net/npm/underscore@1.8.3/underscore-min.js" integrity="sha256-obZACiHd7gkOk9iIL/pimWMTJ4W/pBsKu+oZnSeBIek=" crossorigin="anonymous"></script> <script src="https://cdn.jsdelivr.net/gh/bramp/js-sequence-diagrams@2.0.1/dist/sequence-diagram-min.js" integrity="sha384-8748Vn52gHJYJI0XEuPB2QlPVNUkJlJn9tHqKec6J3q2r9l8fvRxrgn/E5ZHV0sP" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/bramp/js-sequence-diagrams@2.0.1/dist/sequence-diagram-min.css" integrity="sha384-6QbLKJMz5dS3adWSeINZe74uSydBGFbnzaAYmp+tKyq60S7H2p6V7g1TysM5lAaF" crossorigin="anonymous">
+
+
+
+<script type="text/javascript" src="/js/main.min.d7b7ada643c9c1a983026e177f141f7363b4640d619caf01d8831a6718cd44ea.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

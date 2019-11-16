@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>环境 on 王半仙的博客</title>
+    <link>https://springfieldking.github.io/categories/%E7%8E%AF%E5%A2%83/</link>
+    <description>Recent content in 环境 on 王半仙的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sun, 17 Nov 2019 21:59:10 +0800</lastBuildDate>
+    
+	<atom:link href="https://springfieldking.github.io/categories/%E7%8E%AF%E5%A2%83/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Golang代理</title>
+      <link>https://springfieldking.github.io/post/go_proxy/</link>
+      <pubDate>Sun, 17 Nov 2019 21:59:10 +0800</pubDate>
+      
+      <guid>https://springfieldking.github.io/post/go_proxy/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;下载加速, 同时解决国内访问官方仓库被屏蔽的问题&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+  </channel>
+</rss>
